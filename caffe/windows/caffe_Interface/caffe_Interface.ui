@@ -1,0 +1,29 @@
+<UI version="4.0" >
+ <class>caffe_InterfaceClass</class>
+ <widget class="QMainWindow" name="caffe_InterfaceClass" >
+  <property name="objectName" >
+   <string notr="true">caffe_InterfaceClass</string>
+  </property>
+  <property name="geometry" >
+   <rect>
+	<x>0</x>
+	<y>0</y>
+	<width>600</width>
+	<height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>caffe_Interface</string>
+  </property>
+  <widget class="QMenuBar" name="menuBar" />
+  <widget class="QToolBar" name="mainToolBar" />
+  <widget class="QWidget" name="centralWidget" />
+  <widget class="QStatusBar" name="statusBar" />
+ </widget>
+ <layoutDefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <resources>
+   <include location="caffe_Interface.qrc"/>
+ </resources>
+ <connections/>
+</UI>
