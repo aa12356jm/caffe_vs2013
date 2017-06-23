@@ -274,7 +274,7 @@ int main(int argc, char** argv) {//主函数
   Classifier classifier(model_file, trained_file, mean_file, label_file);//进行检测网络的初始化
 
   //string file = argv[5];//取得需要进行检测的图片的路径
-  string file = "1.jpg";
+  string file = "2.jpg";
   std::cout << "---------- Prediction for "
             << file << " ----------" << std::endl;
 
