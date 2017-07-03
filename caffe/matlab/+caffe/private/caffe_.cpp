@@ -594,7 +594,7 @@ static void init_log(MEX_ARGS) {
   mxCHECK(nrhs == 1 && mxIsChar(prhs[0]),
     "Usage: caffe_('init_log', log_dir)");
   if (is_log_inited)
-    ::google::ShutdownGoogleLogging();
+    ::google::ShutdownGoogleLogging();//当要结束glog时必须关闭库，否则会内存溢出
   char* log_base_filename = mxArrayToString(prhs[0]);
   ::google::SetLogDestination(0, log_base_filename);
   mxFree(log_base_filename);
