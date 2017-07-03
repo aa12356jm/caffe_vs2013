@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="classification.cpp" />
+    <ClCompile Include="blob.cpp" />
+    <ClCompile Include="net.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="head.h" />

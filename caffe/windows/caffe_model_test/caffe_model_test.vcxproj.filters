@@ -18,6 +18,12 @@
     <ClCompile Include="classification.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="blob.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="net.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="head.h">
