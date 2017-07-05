@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
   int count = 0;
   // load first datum
   Datum datum;
-  datum.ParseFromString(cursor->value());//读取数据库文件中的第一个键值对
+  datum.ParseFromString(cursor->value());//解析包含在字符串中的protocol buffer 
 
   //解码datum中数据
   if (DecodeDatumNative(&datum)) {

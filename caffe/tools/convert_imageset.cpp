@@ -33,13 +33,13 @@ using boost::scoped_ptr;
 //convert_imageset.exe --backend=leveldb --resize_width=64 --resize_height=64
 
 DEFINE_bool(gray, false,
-    "When this option is on, treat images as grayscale ones"); //bool类型，是否为灰度图片,命令行中使用方式：--gray=true/false
+    "When this option is on, treat images as grayscale ones"); //bool类型，是否为灰度图片,命令行中使用方式：--gray=true/false，或者省略后面的true，--gray  
 
 DEFINE_bool(shuffle, false,
     "Randomly shuffle the order of images and their labels");  //bool类型，定义洗牌变量，是否随机打乱数据集的顺序,命令行中使用方式：--shuffle=true/false
 
 DEFINE_string(backend, "lmdb",
-        "The backend {lmdb, leveldb} for storing the result");  ////string类型，要转换的数据类型，默认lmdb，命令行中使用方式：--backend=lmdb/leveldb
+        "The backend {lmdb, leveldb} for storing the result");  //string类型，要转换的数据类型，默认lmdb，命令行中使用方式：--backend=lmdb/leveldb
 
 DEFINE_int32(resize_width, 0, "Width images are resized to");  //定义resize的尺寸，默认为0，不转换尺寸，等号后面跟数字，表示转换后的大小，命令行中使用方式：--resize_width=64/...
 
