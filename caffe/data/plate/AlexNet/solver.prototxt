@@ -1,0 +1,14 @@
+net: "D://Enjoy_Project//caffe//caffe//data//plate//AlexNet//train_val.prototxt"
+test_iter: 100
+test_interval: 500  #测试间隔。也就是每训练500次，才进行一次测试
+base_lr: 0.001
+lr_policy: "step"
+gamma: 0.1
+stepsize: 100000
+display: 20
+max_iter: 3000
+momentum: 0.9
+weight_decay: 0.0005
+snapshot: 1000
+snapshot_prefix: "D://Enjoy_Project//caffe//caffe//data//plate//AlexNet//"
+solver_mode: GPU
