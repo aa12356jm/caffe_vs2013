@@ -7,7 +7,7 @@
 using namespace caffe;
 using namespace std;
 
-int main()
+int main123()
 {
 	string proto("D://WorkSpace//caffe//caffe//models//bvlc_alexnet//deploy.prototxt");
 	Net<float> n(proto, TEST);

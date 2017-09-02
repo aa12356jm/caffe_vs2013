@@ -265,16 +265,28 @@ int main(int argc, char** argv) {//主函数
 //   string mean_file    = argv[3];
 //   string label_file   = argv[4];
   //plate检测，验证ok
-  string model_file = "deploy.prototxt";
-  string trained_file = "_iter_5000.caffemodel";
-  string mean_file = "train_mean.binaryproto";
-  string label_file = "label.txt";
+//   string model_file = "D://Enjoy_Project//caffe//caffe//windows//caffe_model_test//plate//deploy.prototxt";
+//   string trained_file = "D://Enjoy_Project//caffe//caffe//windows//caffe_model_test//plate//_iter_3000.caffemodel";
+//   string mean_file = "D://Enjoy_Project//caffe//caffe//windows//caffe_model_test//plate//train_mean.binaryproto";
+//   string label_file = "D://Enjoy_Project//caffe//caffe//windows//caffe_model_test//plate//label.txt";
 
+  //识别车牌程序
+//   string model_file = ".//plate//deploy.prototxt";
+//   string trained_file = ".//plate//_iter_3000.caffemodel";
+//   string mean_file = ".//plate//train_mean.binaryproto";
+//   string label_file = ".//plate//label.txt";
+
+  //识别字符程序
+    string model_file = ".//plate_character//deploy.prototxt";
+    string trained_file = ".//plate_character//_iter_3000.caffemodel";
+    string mean_file = ".//plate_character//train_mean.binaryproto";
+    string label_file = ".//plate_character//label.txt";
 
   Classifier classifier(model_file, trained_file, mean_file, label_file);//进行检测网络的初始化
 
   //string file = argv[5];//取得需要进行检测的图片的路径
-  string file = "2.jpg";
+  string file = ".//plate_character//1.jpg";
+
   std::cout << "---------- Prediction for "
             << file << " ----------" << std::endl;
 
