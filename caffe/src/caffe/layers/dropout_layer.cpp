@@ -36,6 +36,8 @@ void DropoutLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
   unsigned int* mask = rand_vec_.mutable_cpu_data();
   const int count = bottom[0]->count();
   if (this->phase_ == TRAIN) {
+	  //均值采样，采样的概率是留下的概率，根据这个概率来断开连接，但是保留下的数据除以（1-threshold_）,这样在test/predict的时候
+       //就不需要像上面描述的那样乘以（1-threshold_）
     // Create random numbers
     caffe_rng_bernoulli(count, 1. - threshold_, mask);
     if (scale_train_) {
