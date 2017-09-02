@@ -247,7 +247,7 @@ void Classifier::Preprocess(const cv::Mat& img,
     << "Input channels are not wrapping the input layer of the network.";//核验图像是否被送入了网络作为输入
 }
 
-int main222(int argc, char** argv) {//主函数
+int main(int argc, char** argv) {//主函数
 /*核验命令行参数是否为6，这6个参数分别为classification编译生成的可执行文件，测试模型时记录网络结构的prototxt文件路径， 
   训练完毕的caffemodel文件路径，记录数据集均值的文件路径，记录类别标签的文件路径，需要送入网络进行分类的图片文件路径*/
 	argc = 6;
