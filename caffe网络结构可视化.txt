@@ -1,0 +1,3 @@
+最近在玩caffe，在网上瞎逛发现一个神经网络可视化的好工具-Netscope(网址：http://ethereon.github.io/netscope/#/editor)，只需要把prototxt网络结构文件内容复制到左边的框框中即可，
+然后同时按住shift+enter即可在右边生成此网络的结构图，非常清晰好用
+http://ethereon.github.io/netscope/quickstart.html

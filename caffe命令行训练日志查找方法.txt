@@ -1,0 +1,2 @@
+在使用命令行方式训练完成caffe后，可以在这个路径（C:\Users\mm\AppData\Local\Temp）下寻找到命令行中的输出log，使用caffe.exe进行训练的话，这些log文件就是以caffe.exe文件开头命名。
+可以直接通过everything软件来搜索caffe.exe开头的文件来查找。

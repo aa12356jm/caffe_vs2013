@@ -26,16 +26,21 @@ using caffe::Timer;
 using caffe::vector;
 using std::ostringstream;
 
+
+//通过gflags宏定义一些程序的参数变量
+//将需要的命令行参数使用gflags的宏定义,比如在命令行中可以这样使用，--solver=solver.prototxt (指定使用哪个网络文件)
+//caffe.exe train --solver=D:\WorkSpace\caffe\caffe\data\plate\solver.prototxt 
+
 DEFINE_string(gpu, "",
     "Optional; run in GPU mode on given device IDs separated by ','."
     "Use '-gpu all' to run on all available GPUs. The effective training "
-    "batch size is multiplied by the number of devices.");
+    "batch size is multiplied by the number of devices.");//string类型，可以指定使用哪个gpu进行计算
 DEFINE_string(solver, "",
-    "The solver definition protocol buffer text file.");
+    "The solver definition protocol buffer text file.");//string类型，可以指定使用哪个网络文件进行
 DEFINE_string(model, "",
-    "The model definition protocol buffer text file.");
+    "The model definition protocol buffer text file.");//string类型，可以指定使用哪个模型，在finetune会使用到
 DEFINE_string(phase, "",
-    "Optional; network phase (TRAIN or TEST). Only used for 'time'.");
+    "Optional; network phase (TRAIN or TEST). Only used for 'time'.");//string类型，可以指定是训练还是测试，可以在网络结构中指定，也可以在命令行中指定
 DEFINE_int32(level, 0,
     "Optional; network level.");
 DEFINE_string(stage, "",
@@ -57,9 +62,15 @@ DEFINE_string(sighup_effect, "snapshot",
 
 // A simple registry for caffe commands.
 typedef int (*BrewFunction)();
-typedef std::map<caffe::string, BrewFunction> BrewMap;
+/*这个是用typedef定义函数指针方法。这个程序定义一个BrewFunction函数指针类型，
+在caffe.cpp 中 BrewFunction 作为GetBrewFunction()函数的返回类型，可以是 train()，test()，device_query()，time() 这四个函数指针的其中一个。
+在train()，test()，中可以调用solver类的函数，从而进入到net，进入到每一层，运行整个caffe程序。
+*/
+typedef std::map<caffe::string, BrewFunction> BrewMap;;// 因为输入参数可能为train，test，device_query，time，所以定义一个容器类型
 BrewMap g_brew_map;
 
+//g_brew_map 初始化,func可以为：train，test，device_query，time
+//宏的多行定义
 #define RegisterBrewFunction(func) \
 namespace { \
 class __Registerer_##func { \
@@ -70,10 +81,15 @@ class __Registerer_##func { \
 }; \
 __Registerer_##func g_registerer_##func; \
 }
+/* 综上， caffe中定义了train()，test()，device_query()，time()四种方式。  
+如果需要，咱们可以增加其他的方式，然后通过RegisterBrewFunction() 函数注册一下即可。
+*/
 
+//在main函数中调用，根据命令行中输入的第二个参数来调用对应的函数
+//命令行中输入的第二个字段有：train，test，device_query，time
 static BrewFunction GetBrewFunction(const caffe::string& name) {
-  if (g_brew_map.count(name)) {
-    return g_brew_map[name];
+  if (g_brew_map.count(name)) {//判断输入的是不是g_brew_map中train，test，device_query，time中一个
+    return g_brew_map[name];// 如果是的话，就调用相应的train(),test()，device_query()，time()
   } else {
     LOG(ERROR) << "Available caffe actions:";
     for (BrewMap::iterator it = g_brew_map.begin();
@@ -86,6 +102,7 @@ static BrewFunction GetBrewFunction(const caffe::string& name) {
 }
 
 // Parse GPU ids or use all available devices
+//得到gpu信息，gpuid等等
 static void get_gpus(vector<int>* gpus) {
   if (FLAGS_gpu == "all") {
     int count = 0;
@@ -134,6 +151,7 @@ vector<string> get_stages_from_flags() {
 // RegisterBrewFunction(action);
 
 // Device Query: show diagnostic information for a GPU device.
+//显示gpu信息
 int device_query() {
   LOG(INFO) << "Querying GPUs " << FLAGS_gpu;
   vector<int> gpus;
@@ -148,6 +166,7 @@ RegisterBrewFunction(device_query);
 
 // Load the weights from the specified caffemodel(s) into the train and
 // test nets.
+//在train()函数中调用，在使用训练好的模型进行finetune时，加载模型的参数到网络中
 void CopyLayers(caffe::Solver<float>* solver, const std::string& model_list) {
   std::vector<std::string> model_names;
   boost::split(model_names, model_list, boost::is_any_of(",") );
@@ -178,6 +197,7 @@ caffe::SolverAction::Enum GetRequestedAction(
 }
 
 // Train / Finetune a model.
+//训练/finetune一个网络的时候，在命令行中使用train字段就会调用这个函数
 int train() {
   CHECK_GT(FLAGS_solver.size(), 0) << "Need a solver definition to train.";
   CHECK(!FLAGS_snapshot.size() || !FLAGS_weights.size())
@@ -259,6 +279,7 @@ RegisterBrewFunction(train);
 
 
 // Test: score a model.
+//测试一个网络，给网络打分的时候，在命令行中使用test字段就会调用这个函数
 int test() {
   CHECK_GT(FLAGS_model.size(), 0) << "Need a model definition to score.";
   CHECK_GT(FLAGS_weights.size(), 0) << "Need model weights to score.";
@@ -332,6 +353,7 @@ RegisterBrewFunction(test);
 
 
 // Time: benchmark the execution time of a model.
+//显示程序执行时间,命令行中使用time字段调用此函数
 int time() {
   CHECK_GT(FLAGS_model.size(), 0) << "Need a model definition to time.";
   caffe::Phase phase = get_phase_from_flags(caffe::TRAIN);
@@ -437,10 +459,13 @@ int main(int argc, char** argv) {
       "  time            benchmark model execution time");
   // Run tool or show usage.
   caffe::GlobalInit(&argc, &argv);
+
+  //命令行中输入的字段train，test，device_query，time。 可通过下面两行进入程序
   if (argc == 2) {
 #ifdef WITH_PYTHON_LAYER
     try {
 #endif
+		//根据命令行中的第二个参数来调用对应的函数执行
       return GetBrewFunction(caffe::string(argv[1]))();
 #ifdef WITH_PYTHON_LAYER
     } catch (bp::error_already_set) {
